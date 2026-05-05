@@ -16,10 +16,13 @@ import { SettingsTab } from './components/SettingsTab';
 import { HelpTab } from './components/HelpTab';
 import { HotelWizard } from './components/HotelWizard';
 import { Toast } from './components/Toast';
+import { LoginScreen } from './components/LoginScreen';
+import { supabase } from './lib/supabaseClient';
 
 export default function App() {
   const store = useAppStore();
   const auth = useAuth();
+  const [skipAuth, setSkipAuth] = useState(false);
   const [newHotelPrompt, setNewHotelPrompt] = useState<{ name: string; buffer: ArrayBuffer } | null>(null);
   const [showWizard, setShowWizard] = useState(false);
 
@@ -87,143 +90,164 @@ export default function App() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-bg font-sans selection:bg-gold/30">
-      <Header
-        hotel={store.activeHotel}
-        report={store.activeReport}
-        theme={store.config.theme}
-        onThemeChange={t => store.setConfig({ ...store.config, theme: t })}
-      />
-      <TabNav activeTab={store.activeTab} onTabChange={store.setActiveTab} isCloudConnected={!!auth.user} />
-
-      <main className="flex-1 p-8">
-        <AnimatePresence mode="wait">
-          {store.activeTab === 'import' && (
-            <motion.div key="import" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }}>
-              <ImportTab
-                config={store.config}
-                activeHotel={store.activeHotel}
-                reports={store.reports}
-                selectedReportId={store.selectedReportId}
-                isLoading={store.isLoading}
-                error={store.error}
-                onAddReport={store.addReport}
-                onDeleteReport={store.deleteReport}
-                onSelectReport={id => { store.setSelectedReportId(id); store.setActiveTab('analyse'); }}
-                onStorePdf={store.storePdfFile}
-                onSwitchToAnalyse={() => store.setActiveTab('analyse')}
-                onSetLoading={store.setIsLoading}
-                onSetError={store.setError}
-                onShowToast={store.showToast}
-                onUpdateHotel={store.updateActiveHotel}
-                onDetectNewHotel={(name, buffer) => setNewHotelPrompt({ name, buffer })}
-              />
-            </motion.div>
-          )}
-
-          {store.activeTab === 'analyse' && (
-            <motion.div key="analyse" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-              <AnalyseTab
-                report={store.activeReport}
-                config={store.config}
-                hotel={store.activeHotel}
-                filters={store.filters}
-                pdfFile={store.activeReport ? store.pdfFiles[store.activeReport.id] || null : null}
-                onFiltersChange={store.setFilters}
-                onResetFilters={store.resetFilters}
-                onShowToast={store.showToast}
-              />
-            </motion.div>
-          )}
-
-          {store.activeTab === 'evolution' && (
-            <motion.div key="evolution" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-              <EvolutionTab
-                config={store.config}
-                hotel={store.activeHotel}
-                onShowToast={store.showToast}
-              />
-            </motion.div>
-          )}
-
-          {store.activeTab === 'help' && (
-            <motion.div key="help" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-              <HelpTab />
-            </motion.div>
-          )}
-
-          {store.activeTab === 'settings' && (
-            <motion.div key="settings" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}>
-              <SettingsTab
-                config={store.config}
-                activeHotel={store.activeHotel}
-                onConfigChange={store.setConfig}
-                onUpdateHotel={store.updateActiveHotel}
-                onAddHotel={store.addHotel}
-                onDeleteHotel={store.deleteHotel}
-                onShowToast={store.showToast}
-                onOpenWizard={() => setShowWizard(true)}
-                onImportHotelJson={handleImportHotelJson}
-                auth={auth}
-              />
-            </motion.div>
-          )}
-
-          {store.activeTab === 'cloud' && (
-            <motion.div key="cloud" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }}>
-              <CloudTab
-                auth={auth}
-                activeReport={store.activeReport}
-                onAddReport={store.addReport}
-                onShowToast={store.showToast}
-              />
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </main>
-
-      {/* Hotel wizard */}
-      {showWizard && (
-        <HotelWizard
-          onComplete={handleWizardComplete}
-          onClose={() => setShowWizard(false)}
-          onShowToast={store.showToast}
+    <>
+      {/* Auth gate — shown instead of app when user is not logged in and has not skipped */}
+      {!auth.loading && !auth.user && !skipAuth && (
+        <LoginScreen
+          auth={auth}
+          onSkip={() => setSkipAuth(true)}
+          supabaseAvailable={supabase !== null}
         />
       )}
 
-      {/* New hotel prompt modal */}
-      {newHotelPrompt && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-bg/80 backdrop-blur-sm">
-          <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="bg-surf1 border border-border rounded-3xl p-8 max-w-md w-full shadow-2xl">
-            <div className="w-16 h-16 bg-blue/10 rounded-full flex items-center justify-center text-blue mx-auto mb-6">
-              <Plus size={32} />
-            </div>
-            <h3 className="text-xl font-bold text-center mb-2">Nouvel Établissement Détecté</h3>
-            <p className="text-text-dim text-center text-sm mb-8">
-              Le rapport correspond à "<span className="text-text font-bold">{newHotelPrompt.name}</span>".
-              Créer un profil ?
-            </p>
-            <div className="flex gap-4">
-              <button onClick={() => setNewHotelPrompt(null)} className="flex-1 py-3 px-6 rounded-xl border border-border text-text-dim font-bold hover:bg-surf2 transition-all">
-                ANNULER
-              </button>
-              <button onClick={handleNewHotelConfirm} className="flex-1 py-3 px-6 rounded-xl bg-gold text-bg font-bold hover:bg-gold-light shadow-lg shadow-gold/20 transition-all">
-                CONFIGURER
-              </button>
-            </div>
-          </motion.div>
+      {/* Loading spinner while auth resolves */}
+      {auth.loading && (
+        <div className="min-h-screen bg-bg flex items-center justify-center">
+          <div className="w-10 h-10 border-2 border-gold border-t-transparent rounded-full animate-spin" />
         </div>
       )}
 
-      <footer className="px-8 py-4 border-t border-border bg-surf1 text-[10px] text-text-dark flex justify-between items-center shrink-0">
-        <p>&copy; 2026 Topsys Planification Explorer</p>
-        <div className="flex gap-4">
-          <span>Traitement 100% local</span>
-          <span className="text-gold">Topsys v8.5 Compatible</span>
-        </div>
-      </footer>
+      {/* Main app — shown when logged in or skip selected */}
+      {!auth.loading && (auth.user || skipAuth) && (
+        <div className="flex flex-col min-h-screen bg-bg font-sans selection:bg-gold/30">
+          <Header
+            hotel={store.activeHotel}
+            report={store.activeReport}
+            theme={store.config.theme}
+            onThemeChange={t => store.setConfig({ ...store.config, theme: t })}
+          />
+          <TabNav activeTab={store.activeTab} onTabChange={store.setActiveTab} isCloudConnected={!!auth.user} />
 
-      <Toast toast={store.toast} />
-    </div>
+          <main className="flex-1 p-8">
+            <AnimatePresence mode="wait">
+              {store.activeTab === 'import' && (
+                <motion.div key="import" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }}>
+                  <ImportTab
+                    config={store.config}
+                    activeHotel={store.activeHotel}
+                    reports={store.reports}
+                    selectedReportId={store.selectedReportId}
+                    isLoading={store.isLoading}
+                    error={store.error}
+                    onAddReport={store.addReport}
+                    onDeleteReport={store.deleteReport}
+                    onSelectReport={id => { store.setSelectedReportId(id); store.setActiveTab('analyse'); }}
+                    onStorePdf={store.storePdfFile}
+                    onSwitchToAnalyse={() => store.setActiveTab('analyse')}
+                    onSetLoading={store.setIsLoading}
+                    onSetError={store.setError}
+                    onShowToast={store.showToast}
+                    onUpdateHotel={store.updateActiveHotel}
+                    onDetectNewHotel={(name, buffer) => setNewHotelPrompt({ name, buffer })}
+                  />
+                </motion.div>
+              )}
+
+              {store.activeTab === 'analyse' && (
+                <motion.div key="analyse" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+                  <AnalyseTab
+                    report={store.activeReport}
+                    config={store.config}
+                    hotel={store.activeHotel}
+                    filters={store.filters}
+                    pdfFile={store.activeReport ? store.pdfFiles[store.activeReport.id] || null : null}
+                    onFiltersChange={store.setFilters}
+                    onResetFilters={store.resetFilters}
+                    onShowToast={store.showToast}
+                  />
+                </motion.div>
+              )}
+
+              {store.activeTab === 'evolution' && (
+                <motion.div key="evolution" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+                  <EvolutionTab
+                    config={store.config}
+                    hotel={store.activeHotel}
+                    onShowToast={store.showToast}
+                  />
+                </motion.div>
+              )}
+
+              {store.activeTab === 'help' && (
+                <motion.div key="help" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+                  <HelpTab />
+                </motion.div>
+              )}
+
+              {store.activeTab === 'settings' && (
+                <motion.div key="settings" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}>
+                  <SettingsTab
+                    config={store.config}
+                    activeHotel={store.activeHotel}
+                    onConfigChange={store.setConfig}
+                    onUpdateHotel={store.updateActiveHotel}
+                    onAddHotel={store.addHotel}
+                    onDeleteHotel={store.deleteHotel}
+                    onShowToast={store.showToast}
+                    onOpenWizard={() => setShowWizard(true)}
+                    onImportHotelJson={handleImportHotelJson}
+                    auth={auth}
+                  />
+                </motion.div>
+              )}
+
+              {store.activeTab === 'cloud' && (
+                <motion.div key="cloud" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }}>
+                  <CloudTab
+                    auth={auth}
+                    activeReport={store.activeReport}
+                    onAddReport={store.addReport}
+                    onShowToast={store.showToast}
+                  />
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </main>
+
+          {/* Hotel wizard */}
+          {showWizard && (
+            <HotelWizard
+              onComplete={handleWizardComplete}
+              onClose={() => setShowWizard(false)}
+              onShowToast={store.showToast}
+            />
+          )}
+
+          {/* New hotel prompt modal */}
+          {newHotelPrompt && (
+            <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-bg/80 backdrop-blur-sm">
+              <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="bg-surf1 border border-border rounded-3xl p-8 max-w-md w-full shadow-2xl">
+                <div className="w-16 h-16 bg-blue/10 rounded-full flex items-center justify-center text-blue mx-auto mb-6">
+                  <Plus size={32} />
+                </div>
+                <h3 className="text-xl font-bold text-center mb-2">Nouvel Établissement Détecté</h3>
+                <p className="text-text-dim text-center text-sm mb-8">
+                  Le rapport correspond à "<span className="text-text font-bold">{newHotelPrompt.name}</span>".
+                  Créer un profil ?
+                </p>
+                <div className="flex gap-4">
+                  <button onClick={() => setNewHotelPrompt(null)} className="flex-1 py-3 px-6 rounded-xl border border-border text-text-dim font-bold hover:bg-surf2 transition-all">
+                    ANNULER
+                  </button>
+                  <button onClick={handleNewHotelConfirm} className="flex-1 py-3 px-6 rounded-xl bg-gold text-bg font-bold hover:bg-gold-light shadow-lg shadow-gold/20 transition-all">
+                    CONFIGURER
+                  </button>
+                </div>
+              </motion.div>
+            </div>
+          )}
+
+          <footer className="px-8 py-4 border-t border-border bg-surf1 text-[10px] text-text-dark flex justify-between items-center shrink-0">
+            <p>&copy; 2026 Topsys Planification Explorer</p>
+            <div className="flex gap-4">
+              <span>Traitement 100% local</span>
+              <span className="text-gold">Topsys v8.5 Compatible</span>
+            </div>
+          </footer>
+
+          <Toast toast={store.toast} />
+        </div>
+      )}
+    </>
   );
 }
