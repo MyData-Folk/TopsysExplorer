@@ -1,0 +1,10 @@
+.env.local
+node_modules/
+build/
+dist/
+coverage/
+.DS_Store
+*.log
+# Ignore all .env files except the committed example template
+.env*
+!.env.example

@@ -1,0 +1,229 @@
+import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Plus } from 'lucide-react';
+import { HotelConfig } from './types';
+import { useAppStore } from './store/useAppStore';
+import { autoDetectCategories, parseTopsysPdf } from './lib/pdfParser';
+import { DEFAULT_IGNORE_PREFIXES } from './utils/constants';
+import { useAuth } from './hooks/useAuth';
+import { CloudTab } from './components/CloudTab';
+import { Header } from './components/Header';
+import { TabNav } from './components/TabNav';
+import { ImportTab } from './components/ImportTab';
+import { AnalyseTab } from './components/AnalyseTab';
+import { EvolutionTab } from './components/EvolutionTab';
+import { SettingsTab } from './components/SettingsTab';
+import { HelpTab } from './components/HelpTab';
+import { HotelWizard } from './components/HotelWizard';
+import { Toast } from './components/Toast';
+
+export default function App() {
+  const store = useAppStore();
+  const auth = useAuth();
+  const [newHotelPrompt, setNewHotelPrompt] = useState<{ name: string; buffer: ArrayBuffer } | null>(null);
+  const [showWizard, setShowWizard] = useState(false);
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', store.config.theme);
+  }, [store.config.theme]);
+
+  const handleNewHotelConfirm = async () => {
+    if (!newHotelPrompt) return;
+    const hotelId = `hotel-${Date.now()}`;
+    const newHotel: HotelConfig = {
+      id: hotelId,
+      name: newHotelPrompt.name,
+      address: 'À compléter',
+      reference: '',
+      totalCapacity: 0,
+      types: [],
+      defaultRoomPrice: 150,
+      ignorePrefixes: [...DEFAULT_IGNORE_PREFIXES],
+    };
+
+    try {
+      const detected = await autoDetectCategories(newHotelPrompt.buffer.slice(0));
+      newHotel.types = detected;
+      newHotel.totalCapacity = detected.reduce((s, t) => s + (t.capacity || 0), 0);
+    } catch { /* ignore */ }
+
+    store.addHotel(newHotel);
+
+    try {
+      const result = await parseTopsysPdf(newHotelPrompt.buffer.slice(0), newHotel, store.config);
+      result.fileName = 'Import automatique';
+      store.addReport(result);
+      store.setActiveTab('analyse');
+      store.showToast('Hôtel créé et rapport importé');
+    } catch (e: any) {
+      store.showToast(e.message || 'Erreur de parsing', 'error');
+    }
+
+    setNewHotelPrompt(null);
+  };
+
+  const handleWizardComplete = (hotel: HotelConfig) => {
+    store.addHotel(hotel);
+    setShowWizard(false);
+    store.showToast(`Hôtel "${hotel.name}" ajouté avec succès`);
+    store.setActiveTab('settings');
+  };
+
+  const handleImportHotelJson = (hotelData: any) => {
+    if (hotelData.name && hotelData.types && Array.isArray(hotelData.types)) {
+      const hotel: HotelConfig = {
+        id: hotelData.id || `hotel-${Date.now()}`,
+        name: hotelData.name,
+        address: hotelData.address || '',
+        reference: hotelData.reference || '',
+        totalCapacity: hotelData.totalCapacity || hotelData.types.reduce((s: number, t: any) => s + (t.capacity || 0), 0),
+        types: hotelData.types,
+        defaultRoomPrice: hotelData.defaultRoomPrice || 150,
+        ignorePrefixes: hotelData.ignorePrefixes || [...DEFAULT_IGNORE_PREFIXES],
+      };
+      store.addHotel(hotel);
+      store.showToast(`Hôtel "${hotel.name}" importé`);
+    }
+  };
+
+  return (
+    <div className="flex flex-col min-h-screen bg-bg font-sans selection:bg-gold/30">
+      <Header
+        hotel={store.activeHotel}
+        report={store.activeReport}
+        theme={store.config.theme}
+        onThemeChange={t => store.setConfig({ ...store.config, theme: t })}
+      />
+      <TabNav activeTab={store.activeTab} onTabChange={store.setActiveTab} isCloudConnected={!!auth.user} />
+
+      <main className="flex-1 p-8">
+        <AnimatePresence mode="wait">
+          {store.activeTab === 'import' && (
+            <motion.div key="import" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }}>
+              <ImportTab
+                config={store.config}
+                activeHotel={store.activeHotel}
+                reports={store.reports}
+                selectedReportId={store.selectedReportId}
+                isLoading={store.isLoading}
+                error={store.error}
+                onAddReport={store.addReport}
+                onDeleteReport={store.deleteReport}
+                onSelectReport={id => { store.setSelectedReportId(id); store.setActiveTab('analyse'); }}
+                onStorePdf={store.storePdfFile}
+                onSwitchToAnalyse={() => store.setActiveTab('analyse')}
+                onSetLoading={store.setIsLoading}
+                onSetError={store.setError}
+                onShowToast={store.showToast}
+                onUpdateHotel={store.updateActiveHotel}
+                onDetectNewHotel={(name, buffer) => setNewHotelPrompt({ name, buffer })}
+              />
+            </motion.div>
+          )}
+
+          {store.activeTab === 'analyse' && (
+            <motion.div key="analyse" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+              <AnalyseTab
+                report={store.activeReport}
+                config={store.config}
+                hotel={store.activeHotel}
+                filters={store.filters}
+                pdfFile={store.activeReport ? store.pdfFiles[store.activeReport.id] || null : null}
+                onFiltersChange={store.setFilters}
+                onResetFilters={store.resetFilters}
+                onShowToast={store.showToast}
+              />
+            </motion.div>
+          )}
+
+          {store.activeTab === 'evolution' && (
+            <motion.div key="evolution" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+              <EvolutionTab
+                config={store.config}
+                hotel={store.activeHotel}
+                onShowToast={store.showToast}
+              />
+            </motion.div>
+          )}
+
+          {store.activeTab === 'help' && (
+            <motion.div key="help" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+              <HelpTab />
+            </motion.div>
+          )}
+
+          {store.activeTab === 'settings' && (
+            <motion.div key="settings" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}>
+              <SettingsTab
+                config={store.config}
+                activeHotel={store.activeHotel}
+                onConfigChange={store.setConfig}
+                onUpdateHotel={store.updateActiveHotel}
+                onAddHotel={store.addHotel}
+                onDeleteHotel={store.deleteHotel}
+                onShowToast={store.showToast}
+                onOpenWizard={() => setShowWizard(true)}
+                onImportHotelJson={handleImportHotelJson}
+                auth={auth}
+              />
+            </motion.div>
+          )}
+
+          {store.activeTab === 'cloud' && (
+            <motion.div key="cloud" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }}>
+              <CloudTab
+                auth={auth}
+                activeReport={store.activeReport}
+                onAddReport={store.addReport}
+                onShowToast={store.showToast}
+              />
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </main>
+
+      {/* Hotel wizard */}
+      {showWizard && (
+        <HotelWizard
+          onComplete={handleWizardComplete}
+          onClose={() => setShowWizard(false)}
+          onShowToast={store.showToast}
+        />
+      )}
+
+      {/* New hotel prompt modal */}
+      {newHotelPrompt && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-bg/80 backdrop-blur-sm">
+          <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="bg-surf1 border border-border rounded-3xl p-8 max-w-md w-full shadow-2xl">
+            <div className="w-16 h-16 bg-blue/10 rounded-full flex items-center justify-center text-blue mx-auto mb-6">
+              <Plus size={32} />
+            </div>
+            <h3 className="text-xl font-bold text-center mb-2">Nouvel Établissement Détecté</h3>
+            <p className="text-text-dim text-center text-sm mb-8">
+              Le rapport correspond à "<span className="text-text font-bold">{newHotelPrompt.name}</span>".
+              Créer un profil ?
+            </p>
+            <div className="flex gap-4">
+              <button onClick={() => setNewHotelPrompt(null)} className="flex-1 py-3 px-6 rounded-xl border border-border text-text-dim font-bold hover:bg-surf2 transition-all">
+                ANNULER
+              </button>
+              <button onClick={handleNewHotelConfirm} className="flex-1 py-3 px-6 rounded-xl bg-gold text-bg font-bold hover:bg-gold-light shadow-lg shadow-gold/20 transition-all">
+                CONFIGURER
+              </button>
+            </div>
+          </motion.div>
+        </div>
+      )}
+
+      <footer className="px-8 py-4 border-t border-border bg-surf1 text-[10px] text-text-dark flex justify-between items-center shrink-0">
+        <p>&copy; 2026 Topsys Planification Explorer</p>
+        <div className="flex gap-4">
+          <span>Traitement 100% local</span>
+          <span className="text-gold">Topsys v8.5 Compatible</span>
+        </div>
+      </footer>
+
+      <Toast toast={store.toast} />
+    </div>
+  );
+}

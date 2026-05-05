@@ -1,0 +1,82 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Figtree:wght@300;400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'Figtree', ui-sans-serif, system-ui, sans-serif;
+  --font-serif: 'Cormorant Garamond', serif;
+
+  --color-bg: var(--theme-bg);
+  --color-surf1: var(--theme-surf1);
+  --color-surf2: var(--theme-surf2);
+  --color-surf3: var(--theme-surf3);
+  --color-border: var(--theme-border);
+  --color-border-hover: var(--theme-border-hover);
+  --color-gold: var(--theme-gold);
+  --color-gold-light: var(--theme-gold-light);
+  --color-green: var(--theme-green);
+  --color-amber: var(--theme-amber);
+  --color-red: var(--theme-red);
+  --color-blue: var(--theme-blue);
+  --color-text: var(--theme-text);
+  --color-text-dim: var(--theme-text-dim);
+  --color-text-dark: var(--theme-text-dark);
+}
+
+:root, [data-theme="dark"] {
+  --theme-bg: #0a0c12;
+  --theme-surf1: #12151e;
+  --theme-surf2: #191d2a;
+  --theme-surf3: #212636;
+  --theme-border: #2a3045;
+  --theme-border-hover: #3a4060;
+  --theme-gold: #d4b162;
+  --theme-gold-light: #f0d88a;
+  --theme-green: #34d399;
+  --theme-amber: #f59e0b;
+  --theme-red: #ef4444;
+  --theme-blue: #60a5fa;
+  --theme-text: #e8ecf4;
+  --theme-text-dim: #8b95ad;
+  --theme-text-dark: #4d5670;
+}
+
+[data-theme="light"] {
+  --theme-bg: #f8f9fc;
+  --theme-surf1: #ffffff;
+  --theme-surf2: #f1f3f8;
+  --theme-surf3: #e6e9f0;
+  --theme-border: #d0d5e2;
+  --theme-border-hover: #a8b0c8;
+  --theme-gold: #8b6914;
+  --theme-gold-light: #a67c1a;
+  --theme-green: #059669;
+  --theme-amber: #d97706;
+  --theme-red: #dc2626;
+  --theme-blue: #2563eb;
+  --theme-text: #111827;
+  --theme-text-dim: #374151;
+  --theme-text-dark: #6b7280;
+}
+
+@layer base {
+  body {
+    @apply bg-bg text-text antialiased;
+  }
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  @apply bg-border rounded-full hover:bg-border-hover;
+}
+
+[data-theme="light"] .custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #b8c0d4;
+}
