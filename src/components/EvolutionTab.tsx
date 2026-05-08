@@ -138,10 +138,10 @@ export function EvolutionTab({ config, hotel, onShowToast }: EvolutionTabProps) 
   }, [loadedReports, hotel.types]);
 
   return (
-    <div className="max-w-6xl mx-auto space-y-8 pb-12">
+    <div className="max-w-6xl mx-auto space-y-6 md:space-y-8 pb-12">
       {/* Header */}
-      <div className="bg-surf1 p-6 rounded-2xl border border-border">
-        <div className="flex items-center justify-between">
+      <div className="bg-surf1 p-5 md:p-6 rounded-2xl border border-border">
+        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <div>
             <h2 className="text-xl font-serif font-bold flex items-center gap-3">
               <BarChart3 size={22} className="text-gold" />
@@ -149,7 +149,7 @@ export function EvolutionTab({ config, hotel, onShowToast }: EvolutionTabProps) 
             </h2>
             <p className="text-xs text-text-dark mt-1">Comparez les taux d'occupation entre différentes périodes en chargeant vos rapports JSON archivés.</p>
           </div>
-          <label className="flex items-center gap-2 px-5 py-2.5 bg-gold text-bg rounded-xl text-xs font-bold cursor-pointer hover:bg-gold-light transition-all shadow-lg shadow-gold/10">
+          <label className="flex w-full items-center justify-center gap-2 px-5 py-2.5 bg-gold text-bg rounded-xl text-xs font-bold cursor-pointer hover:bg-gold-light transition-all shadow-lg shadow-gold/10 md:w-auto">
             <FileUp size={16} /> Charger rapports JSON
             <input type="file" accept=".json" multiple onChange={handleFiles} className="hidden" />
           </label>
@@ -235,11 +235,11 @@ export function EvolutionTab({ config, hotel, onShowToast }: EvolutionTabProps) 
           </div>
 
           {/* Taux evolution chart */}
-          <div className="bg-surf1 border border-border p-6 rounded-2xl">
+          <div className="bg-surf1 border border-border p-4 md:p-6 rounded-2xl overflow-x-auto custom-scrollbar">
             <h3 className="text-[10px] font-bold text-text-dark uppercase tracking-widest mb-6 flex items-center gap-2">
               <TrendingUp size={12} className="text-gold" /> Taux d'occupation moyen par période
             </h3>
-            <div className="h-[300px] w-full">
+            <div className="h-[260px] min-w-[420px] md:h-[300px] md:min-w-0 md:w-full">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={comparison.chartData}>
                   <CartesianGrid strokeDasharray="3 3" stroke="var(--theme-border)" vertical={false} />
@@ -257,11 +257,11 @@ export function EvolutionTab({ config, hotel, onShowToast }: EvolutionTabProps) 
           </div>
 
           {/* Nuitées line chart */}
-          <div className="bg-surf1 border border-border p-6 rounded-2xl">
+          <div className="bg-surf1 border border-border p-4 md:p-6 rounded-2xl overflow-x-auto custom-scrollbar">
             <h3 className="text-[10px] font-bold text-text-dark uppercase tracking-widest mb-6 flex items-center gap-2">
               <BarChart3 size={12} className="text-blue" /> Nuitées vendues & chambres libres
             </h3>
-            <div className="h-[280px] w-full">
+            <div className="h-[250px] min-w-[420px] md:h-[280px] md:min-w-0 md:w-full">
               <ResponsiveContainer width="100%" height="100%">
                 <LineChart data={comparison.chartData}>
                   <CartesianGrid strokeDasharray="3 3" stroke="var(--theme-border)" vertical={false} />
@@ -282,7 +282,7 @@ export function EvolutionTab({ config, hotel, onShowToast }: EvolutionTabProps) 
 
           {/* Per-type evolution */}
           {comparison.typeEvolution.length > 0 && (
-            <div className="bg-surf1 border border-border p-6 rounded-2xl">
+            <div className="bg-surf1 border border-border p-4 md:p-6 rounded-2xl overflow-x-auto custom-scrollbar">
               <h3 className="text-[10px] font-bold text-text-dark uppercase tracking-widest mb-6">
                 Évolution par type de chambre
               </h3>
@@ -336,7 +336,7 @@ export function EvolutionTab({ config, hotel, onShowToast }: EvolutionTabProps) 
               <h3 className="text-[10px] font-bold text-text-dark uppercase tracking-widest mb-6">
                 Superposition journalière
               </h3>
-              <div className="h-[280px] w-full">
+              <div className="h-[250px] min-w-[420px] md:h-[280px] md:min-w-0 md:w-full">
                 <ResponsiveContainer width="100%" height="100%">
                   <LineChart>
                     <CartesianGrid strokeDasharray="3 3" stroke="var(--theme-border)" vertical={false} />
