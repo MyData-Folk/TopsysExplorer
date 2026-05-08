@@ -8,7 +8,7 @@ import { DEFAULT_IGNORE_PREFIXES } from './utils/constants';
 import { useAuth } from './hooks/useAuth';
 import { CloudTab } from './components/CloudTab';
 import { Header } from './components/Header';
-import { TabNav } from './components/TabNav';
+import { TabNav, TabNavMobile } from './components/TabNav';
 import { ImportTab } from './components/ImportTab';
 import { AnalyseTab } from './components/AnalyseTab';
 import { EvolutionTab } from './components/EvolutionTab';
@@ -118,7 +118,7 @@ export default function App() {
           />
           <TabNav activeTab={store.activeTab} onTabChange={store.setActiveTab} isCloudConnected={!!auth.user} />
 
-          <main className="flex-1 p-8">
+          <main className="flex-1 p-4 pb-24 md:p-8 md:pb-8">
             <AnimatePresence mode="wait">
               {store.activeTab === 'import' && (
                 <motion.div key="import" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }}>
@@ -205,6 +205,8 @@ export default function App() {
             </AnimatePresence>
           </main>
 
+          <TabNavMobile activeTab={store.activeTab} onTabChange={store.setActiveTab} isCloudConnected={!!auth.user} />
+
           {/* Hotel wizard */}
           {showWizard && (
             <HotelWizard
@@ -238,9 +240,9 @@ export default function App() {
             </div>
           )}
 
-          <footer className="px-8 py-4 border-t border-border bg-surf1 text-[10px] text-text-dark flex justify-between items-center shrink-0">
+          <footer className="px-4 pb-24 pt-4 md:px-8 md:py-4 border-t border-border bg-surf1 text-[10px] text-text-dark flex flex-col gap-1 md:flex-row md:justify-between md:items-center shrink-0">
             <p>&copy; 2026 Topsys Planification Explorer</p>
-            <div className="flex gap-4">
+            <div className="flex flex-wrap gap-x-4 gap-y-1">
               <span>Traitement 100% local</span>
               <span className="text-gold">Topsys v8.5 Compatible</span>
             </div>
