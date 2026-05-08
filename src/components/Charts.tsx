@@ -29,11 +29,11 @@ export function Charts({ report, config, hotel, visibleCols }: ChartsProps) {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-      <div className="bg-surf1 border border-border p-5 rounded-2xl">
+      <div className="bg-surf1 border border-border p-4 md:p-5 rounded-2xl overflow-x-auto custom-scrollbar">
         <h3 className="text-[10px] font-bold text-text-dark uppercase tracking-widest mb-6 flex items-center gap-2">
           <TrendingUp size={12} className="text-gold" /> Taux d'occupation (%)
         </h3>
-        <div className="h-[250px] w-full">
+        <div className="h-[230px] min-w-[420px] md:h-[250px] md:min-w-0 md:w-full">
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart data={occData}>
               <defs>
@@ -52,11 +52,11 @@ export function Charts({ report, config, hotel, visibleCols }: ChartsProps) {
         </div>
       </div>
 
-      <div className="bg-surf1 border border-border p-5 rounded-2xl">
+      <div className="bg-surf1 border border-border p-4 md:p-5 rounded-2xl overflow-x-auto custom-scrollbar">
         <h3 className="text-[10px] font-bold text-text-dark uppercase tracking-widest mb-6 flex items-center gap-2">
           <BarChart3 size={12} className="text-blue" /> CA journalier ({config.currency})
         </h3>
-        <div className="h-[250px] w-full">
+        <div className="h-[230px] min-w-[420px] md:h-[250px] md:min-w-0 md:w-full">
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={caData}>
               <CartesianGrid strokeDasharray="3 3" stroke="var(--theme-border)" vertical={false} />
