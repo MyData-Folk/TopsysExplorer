@@ -68,7 +68,7 @@ export function AnalyseTab({ report, config, hotel, filters, pdfFile, onFiltersC
   };
 
   return (
-    <div className="flex gap-6 items-start">
+    <div className="flex flex-col gap-6 md:flex-row md:items-start">
       {/* Lateral filter sidebar */}
       <FilterBar filters={filters} report={report} config={config} hotel={hotel} onFiltersChange={onFiltersChange} onReset={onResetFilters} />
 
@@ -76,17 +76,17 @@ export function AnalyseTab({ report, config, hotel, filters, pdfFile, onFiltersC
       <div className="flex-1 min-w-0 space-y-6">
         {/* Report info banner */}
         {report.establishmentName && (
-          <div className="flex items-center justify-between p-4 bg-gold/5 border border-gold/10 rounded-2xl">
-            <div className="flex items-center gap-4">
+          <div className="flex flex-col gap-3 p-4 bg-gold/5 border border-gold/10 rounded-2xl md:flex-row md:items-center md:justify-between">
+            <div className="flex min-w-0 items-center gap-3 md:gap-4">
               <div className="w-10 h-10 bg-gold/10 rounded-xl flex items-center justify-center text-gold">
                 <TrendingUp size={20} />
               </div>
-              <div>
-                <div className="text-sm font-bold text-text uppercase tracking-wider">{report.establishmentName}</div>
-                <div className="text-[10px] text-text-dark">{report.establishmentAddress || ''}</div>
+              <div className="min-w-0">
+                <div className="text-sm font-bold text-text uppercase tracking-wider truncate">{report.establishmentName}</div>
+                <div className="text-[10px] text-text-dark truncate">{report.establishmentAddress || ''}</div>
               </div>
             </div>
-            <div className="text-right">
+            <div className="text-left md:text-right">
               <div className="text-[10px] font-bold text-text-dark uppercase tracking-widest">Période</div>
               <div className="text-xs text-gold font-bold">{report.periodStr}</div>
               {report.editionDate && <div className="text-[9px] text-text-dark mt-1">Édité le {report.editionDate}</div>}
@@ -97,7 +97,7 @@ export function AnalyseTab({ report, config, hotel, filters, pdfFile, onFiltersC
         {/* KPIs */}
         {kpis ? (
           <>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
               <KPICard label="Taux d'occupation" value={`${kpis.avgRate.toFixed(1)}%`} sub={`Moyenne sur ${kpis.daysCount} jours`} icon={TrendingUp} color="gold" />
               <KPICard label="Nuitées vendues" value={`${kpis.totalOcc.toLocaleString('fr')}`} sub="Chambres total occupées" icon={Bed} color="gold" />
               <KPICard label="Chambres libres" value={`${kpis.totalLibres.toLocaleString('fr')}`} sub="Total disponibles" icon={CheckCircle2} color="blue" />
@@ -107,7 +107,7 @@ export function AnalyseTab({ report, config, hotel, filters, pdfFile, onFiltersC
             </div>
 
             {/* Export buttons */}
-            <div className="flex gap-4">
+            <div className="flex flex-wrap gap-3 md:gap-4">
               <button onClick={exportExcel} className="px-4 py-2 bg-surf2 border border-border text-text-dim text-xs font-bold rounded-xl hover:bg-surf3 transition-all flex items-center gap-2">
                 <Download size={14} /> EXPORTER XLS
               </button>
@@ -121,7 +121,7 @@ export function AnalyseTab({ report, config, hotel, filters, pdfFile, onFiltersC
 
             {/* Table */}
             <div className="space-y-3">
-              <div className="flex items-center gap-3">
+              <div className="flex flex-wrap items-center gap-3">
                 <h3 className="text-sm font-bold flex-1">Tableau d'occupation</h3>
                 {pdfFile && (
                   <button onClick={() => setViewingPdf(true)} className="flex items-center gap-2 px-3 py-1.5 bg-gold/10 border border-gold/20 hover:bg-gold/20 text-gold rounded-lg text-[10px] font-bold uppercase">
