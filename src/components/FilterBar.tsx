@@ -32,11 +32,11 @@ export function FilterBar({ filters, report, config, hotel, onFiltersChange, onR
 
   return (
     <aside className={cn(
-      "sticky top-4 self-start transition-all duration-300 shrink-0",
-      collapsed ? "w-10" : "w-64"
+      "w-full md:sticky md:top-4 md:self-start transition-all duration-300 shrink-0",
+      collapsed ? "md:w-10" : "md:w-64"
     )}>
       {collapsed ? (
-        <div className="bg-surf1 border border-border rounded-2xl p-2 flex flex-col items-center gap-2">
+        <div className="bg-surf1 border border-border rounded-2xl p-2 flex md:flex-col items-center gap-2">
           <button onClick={() => setCollapsed(false)} className="p-1.5 hover:bg-surf2 rounded-lg transition-colors" title="Ouvrir filtres">
             <ChevronRight size={16} className="text-text-dim" />
           </button>
@@ -53,13 +53,13 @@ export function FilterBar({ filters, report, config, hotel, onFiltersChange, onR
             <button onClick={e => { e.stopPropagation(); onReset(); }} className="text-[10px] text-text-dark hover:text-text flex items-center gap-1" title="Réinitialiser">
               <RotateCcw size={10} />
             </button>
-            <button onClick={() => setCollapsed(true)} className="p-1 hover:bg-surf2 rounded transition-colors" title="Réduire">
+            <button onClick={() => setCollapsed(true)} className="p-1 hover:bg-surf2 rounded transition-colors hidden md:block" title="Réduire">
               <ChevronLeft size={14} className="text-text-dim" />
             </button>
           </div>
 
           {/* Sections */}
-          <div className="p-4 space-y-5 max-h-[calc(100vh-8rem)] overflow-y-auto custom-scrollbar">
+          <div className="p-4 space-y-5 md:max-h-[calc(100vh-8rem)] md:overflow-y-auto custom-scrollbar">
             {/* View mode */}
             <section>
               <label className="text-[9px] font-bold text-text-dark uppercase tracking-wider block mb-2">Affichage</label>
