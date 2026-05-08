@@ -146,14 +146,14 @@ export function SettingsTab({ config, activeHotel, onConfigChange, onUpdateHotel
   }
 
   return (
-    <div className="max-w-5xl mx-auto space-y-8 pb-12">
+    <div className="max-w-5xl mx-auto space-y-6 md:space-y-8 pb-12">
       {/* Header */}
-      <div className="flex justify-between items-center bg-surf1 p-4 rounded-2xl border border-border">
+      <div className="flex flex-col gap-4 md:flex-row md:justify-between md:items-center bg-surf1 p-4 rounded-2xl border border-border">
         <div>
           <h2 className="text-xl font-serif font-bold">Paramètres & Multi-Hôtels</h2>
           <p className="text-[10px] text-text-dark uppercase tracking-widest mt-1">Gérez vos établissements</p>
         </div>
-        <div className="flex items-center gap-4">
+        <div className="flex w-full flex-wrap items-center gap-3 md:w-auto md:gap-4">
           <AnimatePresence>
             {saveFlash && (
               <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
@@ -172,7 +172,7 @@ export function SettingsTab({ config, activeHotel, onConfigChange, onUpdateHotel
         {/* Hotel selector */}
         <div className="lg:col-span-1">
           <div className="bg-surf1 p-6 rounded-2xl border border-border">
-            <div className="flex justify-between items-center mb-4">
+            <div className="flex flex-wrap justify-between items-center gap-2 mb-4">
               <h3 className="text-[10px] font-bold text-text-dark uppercase tracking-widest">Établissements</h3>
               <button onClick={addNewHotel} className="p-1 px-2 bg-gold/10 text-gold rounded border border-gold/20 text-[10px] font-bold hover:bg-gold/20 flex items-center gap-1">
                 <Plus size={12} /> RAPIDE
@@ -397,10 +397,10 @@ export function SettingsTab({ config, activeHotel, onConfigChange, onUpdateHotel
             </div>
             <div className="space-y-2">
               {activeHotel.types.map((t, i) => (
-                <div key={i} className="flex flex-wrap md:flex-nowrap gap-2 p-3 bg-surf2 border border-border rounded-xl">
+                <div key={i} className="grid grid-cols-2 gap-2 p-3 bg-surf2 border border-border rounded-xl md:flex md:flex-nowrap">
                   <input placeholder="13 DCLA" value={t.code} onChange={e => updateType(i, 'code', e.target.value)} className="flex-1 min-w-[100px] bg-surf3 border border-border rounded-lg p-2 text-xs focus:border-gold outline-none" />
-                  <input placeholder="Label" value={t.label} onChange={e => updateType(i, 'label', e.target.value)} className="w-24 bg-surf3 border border-border rounded-lg p-2 text-xs focus:border-gold outline-none" />
-                  <input placeholder="Description" value={t.description} onChange={e => updateType(i, 'description', e.target.value)} className="flex-[2] min-w-[150px] bg-surf3 border border-border rounded-lg p-2 text-xs focus:border-gold outline-none" />
+                  <input placeholder="Label" value={t.label} onChange={e => updateType(i, 'label', e.target.value)} className="w-full md:w-24 bg-surf3 border border-border rounded-lg p-2 text-xs focus:border-gold outline-none" />
+                  <input placeholder="Description" value={t.description} onChange={e => updateType(i, 'description', e.target.value)} className="col-span-2 flex-[2] min-w-[150px] bg-surf3 border border-border rounded-lg p-2 text-xs focus:border-gold outline-none md:col-span-1" />
                   <input type="number" placeholder="Cap." value={t.capacity} onChange={e => updateType(i, 'capacity', parseInt(e.target.value) || 0)} className="w-16 bg-surf3 border border-border rounded-lg p-2 text-xs focus:border-gold outline-none" />
                   <button onClick={() => removeType(i)} className="p-2 text-text-dark hover:text-red"><Trash2 size={16} /></button>
                 </div>
