@@ -114,7 +114,7 @@ export default function App() {
             hotel={store.activeHotel}
             report={store.activeReport}
             theme={store.config.theme}
-            onThemeChange={t => store.setConfig({ ...store.config, theme: t })}
+            onThemeChange={t => store.updateConfig({ theme: t })}
           />
           <TabNav activeTab={store.activeTab} onTabChange={store.setActiveTab} isCloudConnected={!!auth.user} />
 
