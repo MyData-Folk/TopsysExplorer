@@ -55,6 +55,23 @@ User PDF upload → pdfParser.ts → useAppStore → localStorage (config) + Ind
 
 Dark/light theme stored in `AppConfig.theme`, applied via `data-theme` attribute on `<html>`. Thresholds `highOccupancyThreshold` (default 85%) and `lowOccupancyThreshold` (default 30%) drive color coding across the UI.
 
+## Modular Architecture (for future RMS/Yield modules)
+
+Full spec: `docs/superpowers/specs/2026-05-05-architecture-modulaire-design.md`
+
+**Adding a new module — exactly 3 touchpoints in existing code:**
+1. Add the tab ID to the `TabId` union in `src/types.ts`
+2. Add the entry to `TABS` in `src/components/TabNav.tsx`
+3. Add the `case` in `<AnimatePresence>` in `src/App.tsx`
+
+**New module structure:** `src/modules/<name>/` with local `types.ts`, `components/`, `hooks/`, `lib/supabase<Name>.ts`
+
+**Shared (read-only):** `useAppStore()` for `activeHotel`, `reports`, `config` — and `useAuth()` for Supabase session.
+
+**Never:** write to `useAppStore` from a module, import cross-module, or touch existing Supabase tables (`configs`, `reports`).
+
+**Supabase tables for new modules:** prefix `<module>_` (e.g. `rms_rates`, `yield_rules`, `pricing_plans`).
+
 ## Notes
 
 - The `.env.example` file exists but its variables (`GEMINI_API_KEY`, `APP_URL`) are not used in the codebase.

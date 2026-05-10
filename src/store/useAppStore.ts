@@ -113,18 +113,23 @@ export function useAppStore() {
     }
   }, [reports, config.autoSave]);
 
-  // Auto-select hotel when report changes
+  // Auto-select hotel when active report changes.
+  // IMPORTANT: use functional setter so config is read from within the setter (prev)
+  // and never becomes an external dependency — otherwise setConfig → config change
+  // → activeHotel recomputed → effect re-fires → infinite loop.
   useEffect(() => {
-    if (activeReport?.establishmentName) {
-      const match = config.hotels.find(h =>
+    if (!activeReport?.establishmentName) return;
+    setConfig(prev => {
+      const match = prev.hotels.find(h =>
         h.name.toLowerCase().includes(activeReport.establishmentName!.toLowerCase()) ||
         activeReport.establishmentName!.toLowerCase().includes(h.name.toLowerCase())
       );
-      if (match && match.id !== config.selectedHotelId) {
-        setConfig(prev => ({ ...prev, selectedHotelId: match.id }));
+      if (match && match.id !== prev.selectedHotelId) {
+        return { ...prev, selectedHotelId: match.id };
       }
-    }
-  }, [activeReport?.id]);
+      return prev; // same reference → React bails out, no re-render
+    });
+  }, [activeReport?.id, activeReport?.establishmentName]);
 
   const showToast = useCallback((message: string, type: 'ok' | 'error' = 'ok') => {
     setToast({ message, type });
