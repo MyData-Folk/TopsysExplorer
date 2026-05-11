@@ -1,0 +1,200 @@
+[2026-05-10T04:18:37.011Z] [DEBUG] [undefined] Render principal
+[2026-05-10T04:22:56.647Z] [INFO] [undefined] Événement: SIGNED_IN
+[2026-05-10T04:22:56.648Z] [DEBUG] [undefined] Démarrage fetch profil (ID: 25)
+[2026-05-10T04:22:56.648Z] [DEBUG] [undefined] Render principal
+[2026-05-10T04:22:57.598Z] [INFO] [undefined] Événement: SIGNED_IN
+[2026-05-10T04:22:57.599Z] [DEBUG] [undefined] Démarrage fetch profil (ID: 26)
+[2026-05-10T04:22:57.599Z] [DEBUG] [undefined] Render principal
+[2026-05-10T04:22:58.823Z] [INFO] [undefined] Événement: SIGNED_IN
+[2026-05-10T04:22:58.824Z] [DEBUG] [undefined] Démarrage fetch profil (ID: 27)
+[2026-05-10T04:22:58.824Z] [DEBUG] [undefined] Render principal
+[2026-05-10T04:23:02.388Z] [INFO] [undefined] Événement: SIGNED_IN
+[2026-05-10T04:23:02.389Z] [DEBUG] [undefined] Démarrage fetch profil (ID: 28)
+[2026-05-10T04:23:02.390Z] [DEBUG] [undefined] Render principal
+[2026-05-10T04:23:03.761Z] [INFO] [undefined] Événement: SIGNED_IN
+[2026-05-10T04:23:03.761Z] [DEBUG] [undefined] Démarrage fetch profil (ID: 29)
+[2026-05-10T04:23:03.763Z] [DEBUG] [undefined] Render principal
+[2026-05-10T04:35:23.247Z] [DEBUG] [undefined] Render principal
+[2026-05-10T04:35:23.250Z] [INFO] [undefined] Démarrage hydratation IndexedDB...
+[2026-05-10T04:35:23.286Z] [DEBUG] [undefined] IndexedDB vide
+[2026-05-10T04:35:26.252Z] [WARN] [undefined] Timeout d'initialisation (3s)
+[2026-05-10T04:35:26.254Z] [DEBUG] [undefined] Render principal
+[2026-05-10T04:35:38.149Z] [INFO] [undefined] Tentative connexion: mydata.folkestone@gmail.com
+[2026-05-10T04:35:38.416Z] [INFO] [undefined] Événement: SIGNED_IN
+[2026-05-10T04:35:38.416Z] [DEBUG] [undefined] Démarrage fetch profil (ID: 1)
+[2026-05-10T04:35:38.418Z] [DEBUG] [undefined] Render principal
+[2026-05-10T04:35:42.643Z] [INFO] [undefined] Tentative connexion: galizilemgalizi@gmail.com
+[2026-05-10T04:35:42.804Z] [INFO] [undefined] Événement: SIGNED_IN
+[2026-05-10T04:35:42.805Z] [DEBUG] [undefined] Démarrage fetch profil (ID: 2)
+[2026-05-10T04:35:42.805Z] [DEBUG] [undefined] Render principal
+[2026-05-10T04:35:44.861Z] [INFO] [undefined] Tentative connexion: galizilemgalizi@gmail.com
+[2026-05-10T04:35:45.023Z] [INFO] [undefined] Événement: SIGNED_IN
+[2026-05-10T04:35:45.024Z] [DEBUG] [undefined] Démarrage fetch profil (ID: 3)
+[2026-05-10T04:35:45.024Z] [DEBUG] [undefined] Render principal
+[2026-05-10T04:35:56.101Z] [INFO] [undefined] Tentative connexion: mydata.folkestone@gmail.com
+[2026-05-10T04:35:56.249Z] [INFO] [undefined] Événement: SIGNED_IN
+[2026-05-10T04:35:56.249Z] [DEBUG] [undefined] Démarrage fetch profil (ID: 4)
+[2026-05-10T04:35:56.250Z] [DEBUG] [undefined] Render principal
+[2026-05-10T04:35:57.951Z] [INFO] [undefined] Tentative connexion: mydata.folkestone@gmail.com
+[2026-05-10T04:35:58.105Z] [INFO] [undefined] Événement: SIGNED_IN
+[2026-05-10T04:35:58.105Z] [DEBUG] [undefined] Démarrage fetch profil (ID: 5)
+[2026-05-10T04:35:58.106Z] [DEBUG] [undefined] Render principal
+[2026-05-10T04:35:58.849Z] [INFO] [undefined] Tentative connexion: mydata.folkestone@gmail.com
+[2026-05-10T04:35:58.998Z] [INFO] [undefined] Événement: SIGNED_IN
+[2026-05-10T04:35:58.998Z] [DEBUG] [undefined] Démarrage fetch profil (ID: 6)
+[2026-05-10T04:35:58.999Z] [DEBUG] [undefined] Render principal
+[2026-05-10T04:36:01.282Z] [DEBUG] [undefined] Render principal
+[2026-05-10T04:36:01.284Z] [INFO] [undefined] Démarrage hydratation IndexedDB...
+[2026-05-10T04:36:01.307Z] [DEBUG] [undefined] IndexedDB vide
+[2026-05-10T04:36:04.288Z] [WARN] [undefined] Timeout d'initialisation (3s)
+[2026-05-10T04:36:04.290Z] [DEBUG] [undefined] Render principal
+[2026-05-10T04:36:06.108Z] [INFO] [undefined] Tentative connexion: galizilemgalizi@gmail.com
+[2026-05-10T04:36:06.240Z] [INFO] [undefined] Événement: SIGNED_IN
+[2026-05-10T04:36:06.240Z] [DEBUG] [undefined] Démarrage fetch profil (ID: 1)
+[2026-05-10T04:36:06.242Z] [DEBUG] [undefined] Render principal
+[2026-05-10T04:36:07.166Z] [INFO] [undefined] Tentative connexion: galizilemgalizi@gmail.com
+[2026-05-10T04:36:07.311Z] [INFO] [undefined] Événement: SIGNED_IN
+[2026-05-10T04:36:07.311Z] [DEBUG] [undefined] Démarrage fetch profil (ID: 2)
+[2026-05-10T04:36:07.312Z] [DEBUG] [undefined] Render principal
+[2026-05-10T04:36:08.512Z] [INFO] [undefined] Tentative connexion: galizilemgalizi@gmail.com
+[2026-05-10T04:36:08.681Z] [INFO] [undefined] Événement: SIGNED_IN
+[2026-05-10T04:36:08.681Z] [DEBUG] [undefined] Démarrage fetch profil (ID: 3)
+[2026-05-10T04:36:08.682Z] [DEBUG] [undefined] Render principal
+[2026-05-10T04:41:51.517Z] [DEBUG] [undefined] Render principal
+[2026-05-10T04:41:51.521Z] [INFO] [undefined] Démarrage hydratation IndexedDB...
+[2026-05-10T04:41:51.547Z] [INFO] [undefined] Événement: SIGNED_IN
+[2026-05-10T04:41:51.548Z] [DEBUG] [undefined] Démarrage fetch profil (ID: 1)
+[2026-05-10T04:41:51.548Z] [INFO] [undefined] Initialisation terminée
+[2026-05-10T04:41:51.550Z] [DEBUG] [undefined] IndexedDB vide
+[2026-05-10T04:41:51.551Z] [DEBUG] [undefined] Render principal
+[2026-05-10T04:41:51.574Z] [INFO] [undefined] Événement: INITIAL_SESSION
+[2026-05-10T04:41:51.575Z] [DEBUG] [undefined] Démarrage fetch profil (ID: 2)
+[2026-05-10T04:41:51.576Z] [DEBUG] [undefined] Render principal
+[2026-05-10T04:41:53.490Z] [INFO] [undefined] Tentative connexion: galizilemgalizi@gmail.com
+[2026-05-10T04:41:53.639Z] [INFO] [undefined] Événement: SIGNED_IN
+[2026-05-10T04:41:53.640Z] [DEBUG] [undefined] Démarrage fetch profil (ID: 3)
+[2026-05-10T04:41:53.640Z] [DEBUG] [undefined] Render principal
+[2026-05-10T04:41:53.843Z] [INFO] [undefined] Profil récupéré pour 4401324f-66ff-4290-8e13-cc9ef254dcf6
+[2026-05-10T04:41:53.843Z] [DEBUG] [undefined] Fetch profil 2 ignoré (périmé)
+[2026-05-10T04:41:54.565Z] [INFO] [undefined] Profil récupéré pour 4401324f-66ff-4290-8e13-cc9ef254dcf6
+[2026-05-10T04:41:54.566Z] [DEBUG] [undefined] Fetch profil 1 ignoré (périmé)
+[2026-05-10T04:41:54.627Z] [INFO] [undefined] Tentative connexion: galizilemgalizi@gmail.com
+[2026-05-10T04:41:54.723Z] [INFO] [undefined] Profil récupéré pour 4401324f-66ff-4290-8e13-cc9ef254dcf6
+[2026-05-10T04:41:54.723Z] [DEBUG] [undefined] Render principal
+[2026-05-10T04:41:54.764Z] [INFO] [undefined] Événement: SIGNED_IN
+[2026-05-10T04:41:54.764Z] [DEBUG] [undefined] Démarrage fetch profil (ID: 4)
+[2026-05-10T04:41:54.765Z] [DEBUG] [undefined] Render principal
+[2026-05-10T04:41:54.821Z] [INFO] [undefined] Profil récupéré pour 4401324f-66ff-4290-8e13-cc9ef254dcf6
+[2026-05-10T04:41:54.821Z] [DEBUG] [undefined] Render principal
+[2026-05-10T04:42:00.852Z] [DEBUG] [undefined] Render principal
+[2026-05-10T04:42:05.476Z] [DEBUG] [undefined] Render principal
+[2026-05-10T04:42:08.652Z] [INFO] [undefined] Rapport ajouté: 1778232791358-sxkyl6p1g0f
+[2026-05-10T04:42:08.652Z] [DEBUG] [undefined] Render principal
+[2026-05-10T04:42:08.662Z] [DEBUG] [undefined] Render principal
+[2026-05-10T04:42:11.664Z] [DEBUG] [undefined] Render principal
+[2026-05-10T04:42:21.072Z] [DEBUG] [undefined] Render principal
+[2026-05-10T04:42:31.206Z] [DEBUG] [undefined] Render principal
+[2026-05-10T04:42:38.336Z] [DEBUG] [undefined] Render principal
+[2026-05-10T04:42:39.130Z] [DEBUG] [undefined] Render principal
+[2026-05-10T04:42:45.728Z] [DEBUG] [undefined] Render principal
+[2026-05-10T04:42:48.737Z] [DEBUG] [undefined] Render principal
+[2026-05-10T04:48:10.118Z] [INFO] [undefined] Événement: SIGNED_IN
+[2026-05-10T04:48:10.118Z] [DEBUG] [undefined] Démarrage fetch profil (ID: 5)
+[2026-05-10T04:48:10.119Z] [DEBUG] [undefined] Render principal
+[2026-05-10T04:48:10.663Z] [INFO] [undefined] Profil récupéré pour 4401324f-66ff-4290-8e13-cc9ef254dcf6
+[2026-05-10T04:48:10.664Z] [DEBUG] [undefined] Render principal
+[2026-05-10T04:55:45.228Z] [INFO] [undefined] Événement: SIGNED_IN
+[2026-05-10T04:55:45.229Z] [DEBUG] [undefined] Démarrage fetch profil (ID: 6)
+[2026-05-10T04:55:45.230Z] [DEBUG] [undefined] Render principal
+[2026-05-10T04:55:50.861Z] [INFO] [undefined] Événement: SIGNED_IN
+[2026-05-10T04:55:50.862Z] [DEBUG] [undefined] Démarrage fetch profil (ID: 7)
+[2026-05-10T04:55:50.863Z] [DEBUG] [undefined] Render principal
+[2026-05-10T04:56:30.002Z] [INFO] [undefined] Événement: SIGNED_IN
+[2026-05-10T04:56:30.002Z] [DEBUG] [undefined] Démarrage fetch profil (ID: 8)
+[2026-05-10T04:56:30.004Z] [DEBUG] [undefined] Render principal
+[2026-05-10T04:56:30.255Z] [INFO] [undefined] Profil récupéré pour 4401324f-66ff-4290-8e13-cc9ef254dcf6
+[2026-05-10T04:56:30.255Z] [DEBUG] [undefined] Fetch profil 6 ignoré (périmé)
+[2026-05-10T04:56:30.341Z] [INFO] [undefined] Profil récupéré pour 4401324f-66ff-4290-8e13-cc9ef254dcf6
+[2026-05-10T04:56:30.341Z] [DEBUG] [undefined] Fetch profil 7 ignoré (périmé)
+[2026-05-10T04:56:35.399Z] [INFO] [undefined] Événement: SIGNED_IN
+[2026-05-10T04:56:35.399Z] [DEBUG] [undefined] Démarrage fetch profil (ID: 9)
+[2026-05-10T04:56:35.400Z] [DEBUG] [undefined] Render principal
+[2026-05-10T04:58:06.766Z] [INFO] [undefined] Événement: SIGNED_IN
+[2026-05-10T04:58:06.766Z] [DEBUG] [undefined] Démarrage fetch profil (ID: 10)
+[2026-05-10T04:58:06.768Z] [DEBUG] [undefined] Render principal
+[2026-05-10T04:58:07.098Z] [INFO] [undefined] Profil récupéré pour 4401324f-66ff-4290-8e13-cc9ef254dcf6
+[2026-05-10T04:58:07.098Z] [DEBUG] [undefined] Fetch profil 8 ignoré (périmé)
+[2026-05-10T04:58:07.179Z] [INFO] [undefined] Profil récupéré pour 4401324f-66ff-4290-8e13-cc9ef254dcf6
+[2026-05-10T04:58:07.180Z] [DEBUG] [undefined] Fetch profil 9 ignoré (périmé)
+[2026-05-10T04:58:11.972Z] [INFO] [undefined] Événement: SIGNED_IN
+[2026-05-10T04:58:11.973Z] [DEBUG] [undefined] Démarrage fetch profil (ID: 11)
+[2026-05-10T04:58:11.974Z] [DEBUG] [undefined] Render principal
+[2026-05-10T05:02:12.855Z] [INFO] [undefined] Événement: SIGNED_IN
+[2026-05-10T05:02:12.855Z] [DEBUG] [undefined] Démarrage fetch profil (ID: 12)
+[2026-05-10T05:02:12.856Z] [DEBUG] [undefined] Render principal
+[2026-05-10T05:02:12.903Z] [INFO] [undefined] Profil récupéré pour 4401324f-66ff-4290-8e13-cc9ef254dcf6
+[2026-05-10T05:02:12.903Z] [DEBUG] [undefined] Fetch profil 10 ignoré (périmé)
+[2026-05-10T05:02:12.986Z] [INFO] [undefined] Profil récupéré pour 4401324f-66ff-4290-8e13-cc9ef254dcf6
+[2026-05-10T05:02:12.986Z] [DEBUG] [undefined] Fetch profil 11 ignoré (périmé)
+[2026-05-10T05:02:32.914Z] [INFO] [undefined] Profil récupéré pour 4401324f-66ff-4290-8e13-cc9ef254dcf6
+[2026-05-10T05:02:32.915Z] [DEBUG] [undefined] Render principal
+[2026-05-10T05:02:32.997Z] [INFO] [undefined] Événement: SIGNED_IN
+[2026-05-10T05:02:32.997Z] [DEBUG] [undefined] Démarrage fetch profil (ID: 13)
+[2026-05-10T05:02:32.998Z] [DEBUG] [undefined] Render principal
+[2026-05-10T05:04:02.593Z] [INFO] [undefined] Profil récupéré pour 4401324f-66ff-4290-8e13-cc9ef254dcf6
+[2026-05-10T05:04:02.594Z] [DEBUG] [undefined] Render principal
+[2026-05-10T05:10:09.007Z] [DEBUG] [undefined] Render principal
+[2026-05-10T05:10:09.015Z] [INFO] [undefined] Démarrage hydratation IndexedDB...
+[2026-05-10T05:10:09.065Z] [INFO] [undefined] Événement: SIGNED_IN
+[2026-05-10T05:10:09.065Z] [DEBUG] [undefined] Démarrage fetch profil (ID: 1)
+[2026-05-10T05:10:09.068Z] [INFO] [undefined] 1 rapports chargés depuis IndexedDB
+[2026-05-10T05:10:09.070Z] [DEBUG] [undefined] Render principal
+[2026-05-10T05:10:09.072Z] [INFO] [undefined] Chargement de la config Cloud...
+[2026-05-10T05:10:09.074Z] [DEBUG] [undefined] Render principal
+[2026-05-10T05:10:12.019Z] [WARN] [undefined] Timeout d'initialisation (3s)
+[2026-05-10T05:10:12.020Z] [DEBUG] [undefined] Render principal
+[2026-05-10T05:10:15.564Z] [INFO] [undefined] Déconnexion...
+[2026-05-10T05:10:17.592Z] [INFO] [undefined] Déconnexion...
+[2026-05-10T05:10:18.584Z] [INFO] [undefined] Déconnexion...
+[2026-05-10T05:10:20.372Z] [INFO] [undefined] Déconnexion...
+[2026-05-10T05:14:32.869Z] [DEBUG] [undefined] Render principal
+[2026-05-10T05:14:32.875Z] [INFO] [undefined] Démarrage hydratation IndexedDB...
+[2026-05-10T05:14:32.904Z] [INFO] [undefined] 1 rapports chargés depuis IndexedDB
+[2026-05-10T05:14:32.906Z] [DEBUG] [undefined] Render principal
+[2026-05-10T05:14:32.910Z] [DEBUG] [undefined] Render principal
+[2026-05-10T05:14:32.916Z] [INFO] [undefined] Événement: SIGNED_IN
+[2026-05-10T05:14:32.917Z] [DEBUG] [undefined] Démarrage fetch profil (ID: 1)
+[2026-05-10T05:14:32.925Z] [DEBUG] [undefined] Render principal
+[2026-05-10T05:14:32.927Z] [INFO] [undefined] Chargement de la config Cloud...
+[2026-05-10T05:14:35.885Z] [WARN] [undefined] Timeout d'initialisation (3s)
+[2026-05-10T05:14:35.886Z] [DEBUG] [undefined] Render principal
+[2026-05-10T05:14:38.374Z] [INFO] [undefined] Déconnexion...
+[2026-05-10T05:14:39.693Z] [INFO] [undefined] Déconnexion...
+[2026-05-10T05:14:40.303Z] [INFO] [undefined] Déconnexion...
+[2026-05-10T05:14:41.207Z] [INFO] [undefined] Déconnexion...
+[2026-05-10T05:46:00.527Z] [DEBUG] [undefined] Render principal
+[2026-05-10T05:46:00.530Z] [INFO] [undefined] Démarrage hydratation IndexedDB...
+[2026-05-10T05:46:00.549Z] [INFO] [undefined] 1 rapports chargés depuis IndexedDB
+[2026-05-10T05:46:00.550Z] [DEBUG] [undefined] Render principal
+[2026-05-10T05:46:00.551Z] [DEBUG] [undefined] Render principal
+[2026-05-10T05:46:03.531Z] [WARN] [undefined] Timeout d'initialisation (3s)
+[2026-05-10T05:46:03.531Z] [DEBUG] [undefined] Render principal
+[2026-05-10T05:46:05.296Z] [INFO] [undefined] Tentative connexion: galizilemgalizi@gmail.com
+[2026-05-10T05:46:05.581Z] [INFO] [undefined] Événement: SIGNED_IN
+[2026-05-10T05:46:05.581Z] [DEBUG] [undefined] Démarrage fetch profil (ID: 1)
+[2026-05-10T05:46:05.582Z] [DEBUG] [undefined] Render principal
+[2026-05-10T05:46:05.596Z] [INFO] [undefined] Récupération de la liste des rapports...
+[2026-05-10T05:46:05.597Z] [INFO] [undefined] Chargement de la config Cloud...
+[2026-05-10T05:48:56.224Z] [DEBUG] [undefined] Render principal
+[2026-05-10T05:48:56.228Z] [INFO] [undefined] Démarrage hydratation IndexedDB...
+[2026-05-10T05:48:56.241Z] [INFO] [undefined] 1 rapports chargés depuis IndexedDB
+[2026-05-10T05:48:56.242Z] [DEBUG] [undefined] Render principal
+[2026-05-10T05:48:56.244Z] [DEBUG] [undefined] Render principal
+[2026-05-10T05:48:59.231Z] [WARN] [undefined] Timeout d'initialisation (3s)
+[2026-05-10T05:48:59.232Z] [DEBUG] [undefined] Render principal
+[2026-05-10T05:49:01.427Z] [INFO] [undefined] Tentative connexion: galizilemgalizi@gmail.com
+[2026-05-10T05:49:01.592Z] [INFO] [undefined] Événement: SIGNED_IN
+[2026-05-10T05:49:01.593Z] [DEBUG] [undefined] Démarrage fetch profil (ID: 1)
+[2026-05-10T05:49:01.594Z] [DEBUG] [undefined] Render principal
+[2026-05-10T05:49:01.617Z] [INFO] [undefined] Récupération de la liste des rapports...
+[2026-05-10T05:49:01.617Z] [INFO] [undefined] Chargement de la config Cloud...

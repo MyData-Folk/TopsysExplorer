@@ -1,11 +1,14 @@
 import { HotelConfig, OccupancyData, ThemeMode } from '../types';
 import { ThemeToggle } from './ThemeToggle';
+import { AuthState } from '../hooks/useAuth';
+import { Cloud, LogOut, User } from 'lucide-react';
 
 interface HeaderProps {
   hotel: HotelConfig;
   report: OccupancyData | null;
   theme: ThemeMode;
   onThemeChange: (t: ThemeMode) => void;
+  auth: AuthState;
 }
 
 export function Header({ hotel, report, theme, onThemeChange }: HeaderProps) {
@@ -24,18 +27,35 @@ export function Header({ hotel, report, theme, onThemeChange }: HeaderProps) {
             </p>
           </div>
         </div>
-        <div className="flex items-center gap-3">
-          {report && (
-            <div className="flex flex-wrap gap-2">
-              <span className="px-3 py-1.5 rounded-lg bg-gold/10 border border-gold/20 text-gold text-[10px] font-bold">
-                {report.dateLabels[0]?.full || '...'} → {report.dateLabels[report.daysCount - 1]?.full || '...'}
-              </span>
-              <span className="px-3 py-1.5 rounded-lg bg-surf2 border border-border text-text-dim text-[10px] font-bold">
-                {hotel.totalCapacity} ch.
-              </span>
+        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
+          {/* Cloud Status Card - Always visible when logged in */}
+          {auth.user && (
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 bg-gold/5 border border-gold/20 p-2 rounded-xl">
+              <div className="flex items-center gap-2 px-2 py-1">
+                <Cloud size={14} className="text-gold" />
+                <span className="text-[10px] font-bold text-text truncate max-w-[120px] sm:max-w-[180px]">
+                  {auth.user.email}
+                </span>
+              </div>
+              <button
+                onClick={() => auth.signOut()}
+                className="flex items-center justify-center gap-1.5 px-3 py-1 bg-surf2 border border-border rounded-lg text-[10px] font-bold text-text-dim hover:text-red hover:border-red/30 transition-colors"
+              >
+                <LogOut size={12} /> Déconnexion
+              </button>
             </div>
           )}
-          <ThemeToggle theme={theme} onChange={onThemeChange} />
+
+          <div className="flex items-center gap-3">
+            {report && (
+              <div className="flex gap-2">
+                <span className="px-3 py-1.5 rounded-lg bg-gold/10 border border-gold/20 text-gold text-[10px] font-bold">
+                  {report.dateLabels[0]?.short} → {report.dateLabels[report.daysCount - 1]?.short}
+                </span>
+              </div>
+            )}
+            <ThemeToggle theme={theme} onChange={onThemeChange} />
+          </div>
         </div>
       </div>
     </header>

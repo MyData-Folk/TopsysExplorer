@@ -6,6 +6,7 @@ import { cn } from '../utils/cn';
 import { hydrateReport } from '../utils/helpers';
 import { AuthState } from '../hooks/useAuth';
 import { listReports, downloadReport, generateReportFilename, CloudReportMeta } from '../lib/supabaseStorage';
+import { logger } from '../utils/logger';
 
 interface ImportTabProps {
   config: AppConfig;
@@ -48,8 +49,10 @@ export function ImportTab({
     setCloudError(null)
     try {
       const list = await listReports()
+      logger.info('Import', `${list.length} rapports cloud récupérés`);
       setCloudReports(list)
     } catch (e) {
+      logger.error('Import', 'Erreur récupération rapports cloud', e);
       setCloudError(e instanceof Error ? e.message : 'Erreur inconnue')
     } finally {
       setLoadingCloud(false)
@@ -79,6 +82,7 @@ export function ImportTab({
   const handleFile = useCallback(async (file: File) => {
     onSetLoading(true);
     onSetError(null);
+    logger.info('Import', `Début traitement fichier: ${file.name}`, { size: file.size, type: file.type });
     try {
       if (file.name.endsWith('.json')) {
         const text = await file.text();

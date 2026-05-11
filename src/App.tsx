@@ -18,6 +18,9 @@ import { HotelWizard } from './components/HotelWizard';
 import { Toast } from './components/Toast';
 import { LoginScreen } from './components/LoginScreen';
 import { supabase } from './lib/supabaseClient';
+import { logger } from './utils/logger';
+import { loadCloudConfig } from './lib/supabaseStorage';
+import { DEFAULT_CONFIG } from './utils/constants';
 
 export default function App() {
   const store = useAppStore();
@@ -26,9 +29,31 @@ export default function App() {
   const [newHotelPrompt, setNewHotelPrompt] = useState<{ name: string; buffer: ArrayBuffer } | null>(null);
   const [showWizard, setShowWizard] = useState(false);
 
+  // Trace de rendu globale
+  logger.debug('App', 'Rendu composant App', {
+    authLoading: auth.loading,
+    hasUser: !!auth.user,
+    isApproved: (auth as any).isApproved,
+    activeTab: store.activeTab,
+    reportsCount: store.reports.length
+  });
+
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', store.config.theme);
   }, [store.config.theme]);
+
+  // Chargement de la config Cloud lors de la connexion
+  useEffect(() => {
+    if (auth.user && store.config.cloudSync) {
+      logger.info('App', 'Utilisateur connecté, chargement de la config Cloud...');
+      loadCloudConfig().then(cloudConfig => {
+        if (cloudConfig) {
+          logger.info('App', 'Configuration Cloud appliquée avec succès');
+          store.setConfig(prev => ({ ...DEFAULT_CONFIG, ...prev, ...cloudConfig, cloudSync: true }));
+        }
+      }).catch(err => logger.error('App', 'Erreur chargement Cloud config post-login', err));
+    }
+  }, [auth.user]); // Se déclenche quand auth.user change
 
   const handleNewHotelConfirm = async () => {
     if (!newHotelPrompt) return;
@@ -115,6 +140,7 @@ export default function App() {
             report={store.activeReport}
             theme={store.config.theme}
             onThemeChange={t => store.updateConfig({ theme: t })}
+            auth={auth}
           />
           <TabNav activeTab={store.activeTab} onTabChange={store.setActiveTab} isCloudConnected={!!auth.user} />
 

@@ -1,44 +1,76 @@
 import { useState, useEffect, useRef } from 'react'
 import { User } from '@supabase/supabase-js'
 import { supabase } from '../lib/supabaseClient'
+import { UserProfile } from '../lib/adminStorage'
+import { logger } from '../utils/logger'
 
 export interface AuthState {
   user: User | null
+  profile: UserProfile | null
   loading: boolean
   signIn: (email: string, password: string) => Promise<void>
   signUp: (email: string, password: string) => Promise<void>
   signOut: () => Promise<void>
+  isApproved: boolean
+  isAdmin: boolean
 }
 
 export function useAuth(): AuthState {
   const [user, setUser] = useState<User | null>(null)
+  const [profile, setProfile] = useState<UserProfile | null>(null)
   const [loading, setLoading] = useState(true)
-  // Guard: ensure setLoading(false) is called exactly once at init
   const initializedRef = useRef(false)
+  const fetchIdRef = useRef(0)
+
+  const loadProfile = async (userId: string, isLogin: boolean) => {
+    const currentFetchId = ++fetchIdRef.current
+    try {
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', userId)
+        .single()
+      
+      if (currentFetchId !== fetchIdRef.current) return
+
+      if (error) {
+        logger.warn('Auth', `Échec récupération profil pour ${userId}`, error);
+        return null
+      }
+      logger.info('Auth', `Profil récupéré pour ${userId}`, data);
+      setProfile(data as UserProfile)
+    } catch (err) {
+      logger.error('Auth', 'Erreur lors de la récupération du profil', err)
+    }
+  }
 
   useEffect(() => {
-    // If Supabase is not configured, unlock the UI immediately
     if (!supabase) {
       setLoading(false)
       return
     }
 
-    // Use onAuthStateChange as the SINGLE source of truth.
-    // It fires INITIAL_SESSION synchronously on mount with the current session,
-    // which replaces the need for a separate getSession() call that would
-    // cause a double state-update and a render loop on page reload.
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user ?? null)
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      const u = session?.user ?? null
+      logger.info('Auth', `Changement d'état: ${event}`, { userId: u?.id, email: u?.email });
+      setUser(u)
 
-      // Mark as initialized on the first event (INITIAL_SESSION or SIGNED_OUT)
+      if (u) {
+        logger.debug('Auth', 'Démarrage chargement profil...');
+        loadProfile(u.id, event === 'SIGNED_IN')
+      } else {
+        logger.debug('Auth', 'Session vide, nettoyage profil');
+        fetchIdRef.current++
+        setProfile(null)
+      }
+
       if (!initializedRef.current) {
+        logger.info('Auth', 'Initialisation terminée');
         initializedRef.current = true
         setLoading(false)
       }
     })
 
-    // Safety net: if Supabase never fires (network down, misconfigured),
-    // unlock the UI after 3s so the user isn't stuck on a spinner.
     const timeout = setTimeout(() => {
       if (!initializedRef.current) {
         initializedRef.current = true
@@ -70,5 +102,9 @@ export function useAuth(): AuthState {
     if (error) throw new Error(error.message)
   }
 
-  return { user, loading, signIn, signUp, signOut }
+  const role = (profile as any)?.role ?? null
+  const isApproved = role === 'user' || role === 'admin'
+  const isAdmin = role === 'admin'
+
+  return { user, profile, loading, signIn, signUp, signOut, isApproved, isAdmin }
 }

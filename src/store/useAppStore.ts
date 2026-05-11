@@ -2,9 +2,10 @@ import { useState, useCallback, useMemo, useEffect } from 'react';
 import { get, set } from 'idb-keyval';
 import { AppConfig, OccupancyData, HotelConfig, TabId, FilterState } from '../types';
 import { DEFAULT_CONFIG, DEFAULT_HOTEL, DEFAULT_IGNORE_PREFIXES } from '../utils/constants';
-import { loadCloudConfig } from '../lib/supabaseStorage';
+import { loadCloudConfig, saveConfig } from '../lib/supabaseStorage';
 import { supabase } from '../lib/supabaseClient';
 import { hydrateReport } from '../utils/helpers';
+import { logger } from '../utils/logger';
 
 const IDB_KEY = 'hotel_analyzer_reports_v2';
 const LS_KEY = 'hotel_analyzer_config';
@@ -77,33 +78,36 @@ export function useAppStore() {
 
   // Load reports from IndexedDB
   useEffect(() => {
+    logger.info('Store', 'Démarrage hydratation IndexedDB...');
     get(IDB_KEY).then(saved => {
       if (saved && Array.isArray(saved)) {
+        logger.info('Store', `${saved.length} rapports chargés depuis IndexedDB`);
         setReports(saved.map(hydrateReport));
+      } else {
+        logger.debug('Store', 'IndexedDB vide ou invalide');
       }
-    }).catch(console.error);
+    }).catch(err => logger.error('Store', 'Erreur hydratation IndexedDB', err));
   }, []);
-
-  // Chargement cloud au démarrage si cloudSync activé
-  useEffect(() => {
-    if (!config.cloudSync) return
-    if (!supabase) return
-
-    supabase.auth.getUser().then(({ data }) => {
-      if (!data.user) return
-      loadCloudConfig()
-        .then(cloudConfig => {
-          if (cloudConfig) {
-            setConfig(prev => ({ ...DEFAULT_CONFIG, ...prev, ...cloudConfig, cloudSync: true }))
-          }
-        })
-        .catch(() => { /* erreur réseau silencieuse au démarrage */ })
-    }).catch(() => { /* erreur auth silencieuse */ })
-  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   // Persist config to localStorage
   useEffect(() => {
     localStorage.setItem(LS_KEY, JSON.stringify(config));
+  }, [config]);
+
+  // Persist config to Cloud (Supabase)
+  useEffect(() => {
+    if (!config.cloudSync || !supabase) return;
+    
+    const timeout = setTimeout(() => {
+      supabase.auth.getUser().then(({ data }) => {
+        if (data.user) {
+          logger.info('Store', 'Sauvegarde auto de la config vers le Cloud...');
+          saveConfig(config).catch(err => logger.error('Store', 'Erreur sauvegarde Cloud config', err));
+        }
+      });
+    }, 2000); // Debounce de 2s
+
+    return () => clearTimeout(timeout);
   }, [config]);
 
   // Persist reports to IndexedDB
